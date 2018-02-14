@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/snippet.css" />
+	<script type="text/javascript" src="../scripts/snippet.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/common.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/core.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/search.js" charset="utf-8"></script>
+
+	<title>Developing Applications with Things SDK API</title>
+</head>
+
+<body class="no-toc" onload="prettyPrint()" style="overflow: auto;">
+
+<div id="toc-navigation">
+</div>
+
+<div id="container"><div id="contents"><div class="content">
+
+<h1>Developing Applications with Things SDK API</h1>
+<p>To create a new application project using Things SDK API:</p>
+<ol>
+	<li>In the Tizen Studio, select <strong>File &gt; New &gt; Tizen Project</strong>.</li>
+	<li>Select <strong>Template</strong>, and click <strong>Next</strong>.
+    <p align="center"><img src="../images/thingsapp_sample.png" alt="Tizen Project Wizard"/></p></li>
+	<li>Select <strong>Custom &gt; Iot-headless v4.0</strong>, and click <strong>Next</strong>.
+	<p align="center"><img src="../images/thingsapp_profile_select.png" alt="Tizen Project Wizard"/></p></li>
+	<li>Select <strong>Native Application</strong>, and click <strong>Next</strong>.
+	<p align="center"><img src="../images/thingsapp_native.png" alt="Select a native project"/></p></li>
+	<li>Select <strong>Headless things app</strong>, and click <strong>Next</strong>.
+	<p align="center"><img src="../images/thingsapp_serviceapp.png" alt="Select a native project"/></p></li>
+	<li>Define the project properties, and click <strong>Next</strong>.
+	<p>You can enter the project name (3-50 characters) and the unique package ID. You can also select the location and working sets by clicking <strong>More properties</strong>.</p>
+	<p align="center"><img src="../images/thingsapp_project_name.png" alt="Enter the project name"/></p></li>
+	<li>In the <strong>Device/Platform</strong> list:
+	<ol>
+	<li>Select <strong>[network audio]</strong>.</li> 
+	<li>Uncheck the resources except <strong>x.com.st.powerswitch</strong> and <strong>x.com.st.audiovolume</strong>.</li>
+	<li>Enter <strong>Vendor ID</strong> and <strong>Manufacturer Name</strong>. For <strong>VID</strong> and <strong>MNID</strong> values, see <a href="https://devworkspace.developer.samsung.com">Developer Workspace</a> site and also <a href="things_cloud_setup.htm">Setting up the SmartThings Cloud</a>.</li>
+	<li>Click <strong>Finish</strong>.
+	<p align="center"><img src="../images/codegen.png" alt="Select a native project"/></p></li>
+	</ol>
+	</li>
+	<li>Edit the source code. The code is composed of a device definition JSON file (in the <code>res/</code> directory) and code implementation C files.
+	<p>For more information, see <a href="../api/things_api.htm">Things SDK API</a>. For more information on the JSON file, see <a href="../api/things_api_device.htm">Device Definition</a>, and for C APIs and callbacks, see <a href="../api/things_api_guide.htm">API Usage</a>.</p>
+	<div class="note">
+	<strong>Note</strong>
+	The Network Audio sample application can be built without any modification. To run it, connect the audio jack of the board to a speaker.
+	</div>
+	<p>Instead of using an existing sample as a basis for your application, you can use the <strong>IoT</strong> template that makes use of the Things SDK API:</p>
+	<ol type="a">
+		<li>In the Tizen Studio, select <strong>File &gt; New &gt; Tizen Project</strong>.</li>
+		<li>Select <strong>Template</strong>, click <strong>Next</strong>, select <strong>Custom &gt; Iot-headless v4.0</strong>, and click <strong>Next</strong>.</li>
+		<li>Select <strong>Native Application</strong>, click <strong>Next</strong>, select the <strong>IoT</strong> template, and click <strong>Finish</strong>.</li>
+	</ol>
+	</li>
+	<li>You need a certificate to make the device work correctly. You only have to create the certificate once, when you first install the Tizen Studio.
+	<ol type="a">
+		<li>In the Tizen Studio menu, open the Certificate Manager by going to <strong>Tools &gt; Certificate Manager</strong>.
+		<p align="center"><img src="../images/certificate_manager.png" alt="Open the Certificate Manager"/></p></li>
+		<li>To create a new certificate, click <strong>+</strong> and <strong>Next</strong>.
+		<p align="center"><img src="../images/cm_new.png" alt="Create a new certificate"/></p></li>
+		<li>Enter the certificate profile name and click <strong>Next</strong>.
+		<p align="center"><img src="../images/cm_profile.png" alt="Enter certificate name"/></p></li>
+		<li>In the <strong>Author Certificate</strong> tab, select <strong>Create a new author certificate</strong>, and click <strong>Next</strong>.
+		<p align="center"><img src="../images/cm_new_author.png" alt="Create authot certificate"/></p></li>
+		<li>Enter the details in the <strong>Key Filename</strong>, <strong>Author Name</strong>, and <strong>Password</strong> fields, and click <strong>Next</strong>.
+		<p align="center"><img src="../images/cm_author.png" alt="Enter author details"/></p></li>
+		<li>In the <strong>Distributor Certificate</strong> tab, select <strong>Use the default Tizen distributor certificate</strong> and select <strong>Platform</strong> in the <strong>Privilege level</strong> drop-down menu.
+		<p align="center"><img src="../images/cm_privilege.png" alt="Create distributor certificate"/></p>
+		<div class="note">
+		<strong>Note</strong>
+		The default privilege level is <strong>Public</strong>, but you can change it to <strong>Platform</strong> for development purposes.</div>
+		</li>
+		<li>Review certificates information created in the <strong>Certificate Manager</strong> window.
+		<p align="center"><img src="../images/cm_end.png" alt="View certificate details"/></p></li>
+	</ol>
+	</li>
+	<li>To connect to the SmartThings Cloud, you need an MNID (manufacturer ID), a VID (vendor ID), a private key, and a cloud certificate, and you must update the content of the <code>res/</code> directory of the application with the new information.
+	<p>(For more information, see <a href="things_cloud_setup.htm">Setting up the SmartThings Cloud</a>).</p>
+	<div class="note">
+		<strong>Note</strong>
+		<ul>
+			<li><strong>MNID</strong> A unique ID assigned to each developer. When you log in the SmartThings Server, a unique MNID is generated for you.</li>
+			<li><strong>VID</strong> A device ID assigned to a developer. You need to assign a unique, alphanumerical ID for each device you develop.</li>
+			<li><strong>Private key and cloud certificate</strong> The key and certificate to certify that you are allowed to access the SmartThings Cloud.</li>
+		</ul>
+	</div>
+	<ol type="a">
+		<li>In the <code>platform</code> section of the <code>res/device_def.json</code> file, check if the MNID is the same as the <code>manufacturerName</code> field and the VID is the same as the <code>vendorId</code> field.
+		<p align="center"><img src="../images/device-definition-json-mnid-vid.png" alt="Device Definition JSON File"/></p></li>
+		<li>Generate the iot certificate following the guide here.<a href="things_cloud_setup.htm#cloud-certificate">Generating cloud certificates</a></li>
+	</ol>
+	</li>
+	<li>Connect the ARTIK 530 or Raspberry Pi 3 board to a Linux computer with a USB cable.
+	<p>For more information, see <a href="tizen_image_download_flash.htm">Flashing Tizen Images</a>.</p></li>
+	<li>
+	Confirm that "artik" or "rpi3" is shown in the Tizen Studio toolbar.
+	<p align="center"><img src="../images/tizen_studio_artik.png" alt="Artik connected to the Tizen Studio"/></p>
+	<p align="center"><img src="../images/tizen_studio_rpi3.png" alt="Raspberry Pi 3 connected to the Tizen Studio"/></p></li>
+	<li>In the Tizen Studio <strong>Project Explorer</strong> view, right-click the project and select <strong>Run As &gt; Tizen Native Project</strong>.
+	<p align="center"><img src="../images/thingsapp_runas.png" alt="Running the project"/></p></li>
+</ol>
+<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="../scripts/showhide.js"></script>
+</div></div></div>
+<a class="top sms" href="#"><img src="../images/btn_top.gif" alt="Go to top"/></a>
+<div id="footer">
+<p class="footer">Except as noted, this content - excluding the Code Examples - is licensed under <a href="http://creativecommons.org/licenses/by/3.0/legalcode" target="_blank">Creative Commons Attribution 3.0</a> and all of the Code Examples contained herein are licensed under <a href="https://www.tizen.org/bsd-3-clause-license" target="_blank">BSD-3-Clause</a>.<br/>For details, see the <a href="https://www.tizen.org/content-license" target="_blank">Content License</a>.</p>
+</div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25976949-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</body></html>

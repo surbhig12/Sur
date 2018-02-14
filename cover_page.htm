@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/snippet.css" />
+	<script type="text/javascript" src="../scripts/snippet.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/common.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/core.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/search.js" charset="utf-8"></script>
+
+	<title>Tizen IoT</title>
+
+</head>
+
+<body class="no-toc" onload="prettyPrint()" style="overflow: auto;">
+
+<div id="toc-navigation">
+</div>
+
+<div id="container"><div id="contents"><div class="content">
+
+<h1>Tizen IoT</h1>
+
+<p>Tizen has been commercialized for smart TV, smart phone, smart watch, and smart home appliances with 3 profiles: TV, mobile, and wearable. Now, Tizen IoT has been released for any type of special-purpose IoT devices based on the Linux kernel.</p>
+
+<p>Tizen IoT Preview 1 is the first preview release of Tizen for the development of IoT devices, which are connected easily and securely with legacy IoT ecosystems, such as SmartThings&trade;. Tizen IoT Preview 1 consists of a platform image, a development environment, and a sample for getting started.</p>
+
+<ul>
+	<li>Hardware targets
+	<p>Raspberry Pi 3 and ARTIK 530 are supported as reference hardware.</p></li>
+	<li>Platform image
+		<ul>
+			<li>Headless
+			<p>Platform image for headless-type IoT devices without a display. In Preview 1, Raspberry Pi 3 and ARTIK 530 can be used with the headless platform image.</p></li>
+			<li>Headed
+			<p>Platform image for headed-type IoT devices with a display. In Preview 1, only ARTIK 530 can be used with the headed platform image.</p></li>
+		</ul>
+	</li>
+	<li>Development environment
+		<ul>
+			<li>IoT Setup Wizard
+			<p>The IoT Setup Wizard is a computer application for easily setting up Tizen IoT on hardware targets. In Preview 1, flashing a platform image into an SD card for Raspberry Pi 3 and ARTIK 530 is only supported with the IoT Setup Wizard in a Linux computer environment.</p></li>
+			<li>Tizen Studio 2.0 (or later) for application development
+			<p>Tizen Studio 2.0 (or later) is used as an IDE for developing IoT applications with the Tizen IoT Platform on Raspberry Pi 3 and ARTIK 530.</p></li>
+			<li><a href="../api/iot_api.htm">API</a>
+				<ul>
+				<li>Things SDK for SmartThings&trade;
+				<p>Using the Things SDK API for <a href="https://smartthings.developer.samsung.com/" target="_blank">SmartThings&trade;</a>, you can create your IoT devices with the SmartThings Cloud. The Things SDK API enables you to integrate, control and monitor your IoT devices through the SmartThings Cloud with the Samsung Connect application.</p></li>
+				<li>Peripheral I/O
+				<p>Using the Tizen Peripheral I/O Native API for IoT devices, you can control peripherals, such as sensors and actuators, using industry-standard protocols and interfaces.</p></li>
+				</ul>
+			</li>
+			<li><a href="https://craftroom.tizen.org/" target="_blank">Craftroom</a>
+			<p>Craftroom is a new Web site for creating your own development community using a Tizen platform image. Craftroom can generate a new platform image by adding IoT applications made in the Tizen Studio. It provides a new functionality by combining Tizen packages, and allows you to create a new customized Tizen platform image for IoT devices in the next platform release.</p></li>
+		</ul>
+		<p>To get started with developing your own Tizen IoT applications:</p>
+			<ol>
+				<li><a href="tizen_studio_install.htm">Install the Tizen Studio</a>.</li>
+				<li><a href="tizen_image_download_flash.htm">Flash a Tizen image</a>.</li>
+				<li><a href="things_app_development.htm">Develop an application</a>.</li>
+				<li><a href="things_cloud_setup.htm">Set up the SmartThings Cloud</a>.</li>
+				<li><a href="cloud_app_test.htm">Test the application with the Samsung Connect application</a>.</li>
+			</ol>
+	</li>
+	<li><a href="../sample/iot_sample.htm">Samples</a>
+	<p>In Tizen IoT Preview 1, only the network audio sample application is supported. The number of online samples is set to extend in the future.</p></li>
+</ul>
+
+
+<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="../scripts/showhide.js"></script>
+</div></div></div>
+
+
+<a class="top sms" href="#"><img src="../images/btn_top.gif" alt="Go to top" /></a>
+
+<div id="footer">
+<p class="footer">Except as noted, this content - excluding the Code Examples - is licensed under <a href="http://creativecommons.org/licenses/by/3.0/legalcode" target="_blank">Creative Commons Attribution 3.0</a> and all of the Code Examples contained herein are licensed under <a href="https://www.tizen.org/bsd-3-clause-license" target="_blank">BSD-3-Clause</a>.<br/>For details, see the <a href="https://www.tizen.org/content-license" target="_blank">Content License</a>.</p>
+</div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25976949-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body></html>

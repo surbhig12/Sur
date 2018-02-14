@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/snippet.css" />
+	<script type="text/javascript" src="../scripts/snippet.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/common.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/core.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/search.js" charset="utf-8"></script>
+
+	<title>Setting up the SmartThings Cloud</title>
+
+</head>
+
+<body onload="prettyPrint()" style="overflow: auto;">
+
+<div id="toc-navigation">
+
+	<div id="toc_border"><div id="toc">
+
+		<p class="toc-title">Content</p>
+		<ul class="toc">
+			<li><a href="#mn-id">Registering Your Device</a></li>
+			<li><a href="#cloud-certificate">Generating Cloud Certificates</a></li>
+			<li><a href="#using-cloud-certificate">Using Cloud Certificates</a></li>
+		</ul>
+	</div></div>
+</div>
+<div id="container"><div id="contents"><div class="content">
+<h1>Setting up the SmartThings Cloud</h1>
+<p>To develop applications that integrate with the SmartThings Cloud, you must register the function of your device (called a resource or capability in the SmartThings Cloud) and generate a private key and a cloud certificate.</p>
+<h2 id="mn-id">Registering Your Device</h2>
+<p>To register the function of your device:</p>
+<ol>
+	<li>Create a cloud-connected device in the Developer Workspace site (<a href="https://devworkspace.developer.samsung.com/" target="_blank">https://devworkspace.developer.samsung.com/</a>), by following the instructions on the <a href="https://smartthings.developer.samsung.com/develop/workspace/ide/create-a-cloud-connected-device.html" target="_blank">SmartThings Developers site</a>:
+	<ul>
+		<li>Create a unique VID (vendor ID) for each device you develop.</li>
+		<li>Select the <strong>Switch</strong> and <strong>Audio Volume</strong> capabilities in the <strong>Device Profile</strong> field, for the Network Audio sample application.</li>
+	</ul>
+	<p align="center"><img src="../images/devworkspace_vid.png" alt="Web Console VID Example"/></p>
+	</li>
+	<li>After the cloud-connected device is created, check the device information by clicking the new device.</li>
+	<li>Note the <strong>VID</strong> and the <strong>MNID</strong> field value, shown in the device information. The values must be updated in the device definition JSON file.
+	<p>For more information, see <a href="things_app_development.htm">Developing Applications with Things SDK API</a>.</p>
+	<p align="center"><img src="../images/devworkspace_mnid_vid.png" alt="Web Console VID/MNID Example"/></p>
+	</li>
+</ol>
+<h2 id="cloud-certificate">Generating Cloud Certificates</h2>
+<p>SmartThings&trade; uses OpenSSL for security. To begin development, you need to get certificates for both plugins (PPK) and devices. For instructions on installing OpenSSL, see the OpenSSL documentation.</p>
+
+<p>Generate the IoT certificate and private key using the Certificate Manager: </p>
+
+<ol>
+	<li>In the Tizen Studio menu, open the Certificate Manager by going to <strong>Tools > Certificate Manager</strong>. <p align="center"><img src="../images/certificate_manager_menu_item.png" alt="Certificate Manager menu Item"/></p></li>
+	<li>In the Tizen Certificate Manager window, select the <strong>IoT Cloud Service</strong> tab and click <strong>+</strong> to create a new certificate and key pair. <p align="center"><img src="../images/cm_iot_tab.png" alt="Certificate Manager IoT Tab"/></p></li>
+	<li>Fill the requested information in the Certificate Generation Dialog and click <strong>OK</strong>. <p align="center"><img src="../images/certificate_generation_dialog.png" alt="Certificate Generation Dialog"/></p></li>
+	<li>In the Certificate Generation Dialog, perform the steps in the <strong>Certificate creating guide</strong>. To select the downloaded certificate, click <strong>Browse</strong> and click <strong>OK</strong>. <p align="center"><img src="../images/certificate_creation_guide.png" alt="Certificate Creation Guide"/></p></li>
+	<li>You can see the generated certificate and private key in the <strong>Certificate Profile</strong> list. <p align="center"><img src="../images/certificate_list.png" alt="Certificate List"/></p></li>
+</ol>
+
+<h2 id="using-cloud-certificate">Using the Generated IoT certificate</h2>
+<p>The IoT certificate and key pair generated in the previous section needs to be copied to the application in a designated directory. This enables the device to connect to the SmartThings cloud using the IoT certificate.</p>
+
+<p>To add the IoT certificate to the application:</p>
+<ol>
+	<li>In the Tizen Studio <strong>Project Explorer</strong> view, <strong>right-click</strong> the project and select <strong>Build Signed Package</strong>. <p align="center"><img src="../images/build_signed_package.png" alt="Build signed package"/></p></li>
+	<li>The certificate and private key must be copied to the <strong>res</strong> folder of the application. <p align="center"><img src="../images/res_certificate.png" alt="Certificate in res folder"/></p></li>
+</ol>
+
+<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="../scripts/showhide.js"></script>
+</div></div></div>
+
+<a class="top sms" href="#"><img src="../images/btn_top.gif" alt="Go to top"/></a>
+
+<div id="footer">
+<p class="footer">Except as noted, this content - excluding the Code Examples - is licensed under <a href="http://creativecommons.org/licenses/by/3.0/legalcode" target="_blank">Creative Commons Attribution 3.0</a> and all of the Code Examples contained herein are licensed under <a href="https://www.tizen.org/bsd-3-clause-license" target="_blank">BSD-3-Clause</a>.<br/>For details, see the <a href="https://www.tizen.org/content-license" target="_blank">Content License</a>.</p>
+</div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25976949-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body></html>

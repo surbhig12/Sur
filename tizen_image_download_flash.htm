@@ -1,0 +1,902 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/snippet.css" />
+	<script type="text/javascript" src="../scripts/snippet.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/common.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/core.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/search.js" charset="utf-8"></script>
+
+	<title>Flashing Tizen Images</title>
+
+</head>
+
+<body onload="prettyPrint()" style="overflow: auto;">
+
+
+<div id="toc-navigation">
+
+	<div id="toc_border"><div id="toc">
+		<p class="toc-title">Content</p>
+		<ul class="toc">
+			<li><a href="#using-iot-setup-wizard">Flashing with the IoT Setup Manager</a></li>
+			<li><a href="#command-line-flash">Flashing with the Command Line</a></li>
+			<li><a href="#wifi-setup">Setting up Wi-Fi</a></li>
+		</ul>
+
+	</div></div>
+</div>
+
+<div id="container"><div id="contents"><div class="content">
+
+<h1>Flashing Tizen Images</h1>
+
+<p> There are 2 ways to flash Tizen binaries into your board:</p>
+<ul>
+	<li><a href="#using-iot-setup-wizard">Using the IoT Setup Manager</a></li>
+	<li><a href="#command-line-flash">Using the command line</a></li>
+</ul>
+
+<p>Once you have flashed and set up your board, you can also optionally <a href="#wifi-setup">set up Wi-Fi</a>.</p>
+
+<h2 id="using-iot-setup-wizard">Flashing with the IoT Setup Manager</h2>
+
+<p>Using Tizen IoT Setup Manager, you can easily install Tizen on your IoT Device using your PC, get your device running and connected to your local network. Once connected, you can start developing and testing Tizen IoT App with ease</p>
+
+<p><strong>Attractive features of IoT Setup Manager:</strong></p>
+<ul>
+	<li><strong>Saved Profiles:</strong>
+		<ol type="a">
+		<li>Configuration profiles can be saved and retrieved for easy flashing</li>
+		</ol>
+	</li>
+	<li><strong>3 Steps Flashing:</strong>
+		<ol type="a">
+		<li>Select the profile</li>
+		<li>Select your SD Card</li>
+		<li>Click Burn button</li>
+		</ol>
+	</li>
+	<li><strong>Automatic Network Connection:</strong>
+		<ol type="a">
+		<li>Wifi (ssid / password) or Ethernet (static information) can be entered, so that the device <strong>automatically connects to your local network</strong> upon booting</li>
+		</ol>
+	</li>
+</ul>
+
+<h3>Pre-requisites</h3>
+<h4>Operating System</h4>
+<p>IoT Setup Manager supports the following operating systems</p>
+<ul>
+	<li>Windows 7 and above (64 and 32 bit)</li>
+	<li>Ubuntu 14.04 LTS and above (64 and 32 bit)</li>
+</ul>
+
+<h4>Environment</h4>
+<p>IoT Setup Manager also requires JRE (Java Runtime Environment) 1.8 or above to be installed on your PC to run. It is required to have Oracle JRE on your PC, and not any other build.</p>
+<p>Check if JRE is installed in your PC open the shell (terminal in Ubuntu/ command prompt in windows) and enter the command:</p>
+<pre class="prettyprint">
+$ java -version
+java version "1.8.0_112"
+Java(TM) SE Runtime Environment (build 1.8.0_112-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 25.112-b15, mixed mode)
+</pre>
+<p>Both Ubuntu and Windows should produce a similar output if JRE is installed. If the output does not say “Java™ SE Runtime Environment” or produces an error, it means Oracle JRE is not installed.</p>
+
+<h4>Ubuntu tools</h4>
+<p>On Ubuntu, the following packages are requried in addition by Setup Manager.</p>
+<ul>
+	<li>rpm2cpio</li>
+	<li>cpio</li>
+</ul>
+<p>If they are not installed, you can install a package by using</p>
+<pre class="prettyprint">
+sudo apt-get install package-name
+</pre>
+
+<h3>Installing the IoT Setup Manager</h3>
+
+<p>To use the IoT Setup Manager, you must have the <a href="tizen_studio_install.htm">Tizen Studio installed</a>.</p>
+<p>IoT Setup Manager can be easily installed using Tizen Studio’s Package Manager.
+<ul>
+	<li>Open Tizen Studio Package Manager.</li>
+	<li>Click on Extension SDK on and check the IoT Setup Manager in the list of packages.
+		<div class="note">
+			<strong>Note</strong>
+			If the IoT Setup Manager is not present in package manager, you can add it manually.
+			<ol type="a">
+			<li>Open the Configuration Window by clicking on the gear button on top.</li>
+			<li>Click on Extension SDK at the bottom of the configuration window.</li>
+			<li>Push the “+” button to add a new SDK extension</li>
+			<li>In the Add Repository window that pops up, Enter the name as "IoT Setup Manager” and add <a href="http://download.tizen.org/sdk/extensions/iot-setup-mgr" target="_blank">http://download.tizen.org/sdk/extensions/iot-setup-mgr</a></li>
+			</ol>
+		</div>
+	</li>
+
+	<li>Install the IoT Setup Manager Extension by clicking the install button next to it.</li>
+	<li>IoT Setup Manager would be installed successfully.</li>
+	<li>Start the Tizen Studio. If the Tizen Studio is already running, close and restart it.</li>
+</ul>
+
+<h3>Launching the IoT Setup Manager</h3>
+
+<h4>Launch from Tizen Studio</h4>
+<p>From Tizen Studio, IoT Setup Manager can be launched by two ways:
+	<ul>
+		<li>From the menu: IoT > IoT Setup Manager <strong>ISM &gt; IoT Setup Manager &gt; Other</strong>.</li>
+		<li>From the shortcut button.</li>
+		<p align="center"><img src="../images/tizen_studio_ism.png" alt="IoT Setup Manager menu path"/></p>
+	</ul>
+</p>
+<h4>Launch using shortcut (without launching Tizen Studio)</h4>
+<p>During installation, Package Manager creates shortcuts for IoT Setup Manager, which can be used to launch it as a standalone application, without using Tizen Studio. It can be launched using the shortcut as follows:
+	<ul>
+		<li><strong>Windows:</strong> Start Menu > Programs > Tizen Studio > Tools > IoT Setup Manager.</li>
+		<li><strong>Ubuntu:</strong> Dash (equivalent to Start Menu) > Applications > IoT Setup Manager.</li>
+	</ul>
+</p>
+
+
+<h3>IoT Setup Manager User Interface</h3>
+
+<p>The following figure illustrates the IoT Setup Manager user interface.</p>
+<p align="center"><strong>Figure: IoT Setup Manager Main Window</strong></p>
+<p align="center"><img src="../images/iot_setup_manager_main_window.png" alt="IoT Setup Manager Main" /></p>
+<p>The Main UI components are:</p>
+<ul>
+	<li><strong>Select burning profile</strong>
+	<p>In the drop-down menu, you can select the profile among saved profiles in the user's folder, so you don't need to create or edit profiles every time. Moreover you can copy flashing profile to the Manager directory and the app will recognize this profile on a next start.</p>
+	</li>
+	<li><strong>Create</strong>
+	<p>Create a new flashing profile.</p>
+	</li>
+	<li><strong>Edit</strong>
+	<p>Edit the existing one.</p>
+	</li>
+	<li><strong>Select Drive</strong>
+	<p>Insert SD card and wait few moments unitil it appears in the dropdown list.</p>
+	</li>
+	<li><strong>Burn</strong>
+	<p>Press Burn button and wait until the flashing routine is finished. It may take a minute or two and the system may ask your supervisor password, required for operations with SD card.</p>
+	</li>
+</ul>
+<p align="center"><strong>Figure: IoT Setup Manager Edit Window</strong></p>
+<p align="center"><img src="../images/iot_setup_manager_edit_window.png" alt="IoT Setup Manager Edit" /></p>
+<p>The Edit UI components are:</p>
+<ul>
+	<li><strong>Profile name</strong>
+	<p>Give a profile a good name, for example, ARTIK530-headless.</p>
+	</li>
+	<li><strong>Target</strong>
+	<p>Select your board type from the drop down list.</p>
+	</li>
+	<li><strong>Boot image</strong>
+	<p>Browse for Tizen Boot image on your hard drive.</p>
+	</li>
+	<li><strong>Platform image</strong>
+	<p>Browse for Tizen Platform image on your hard drive.</p>
+	</li>
+	<li><strong>RPM bundles</strong>
+	<p>Browse for the folder which has Tizen RPMs on your hard drive.</p>
+	</li>
+	<li><strong>Network configuration</strong></li>
+	<p>Give Wifi (ssid / password) or Ethernet (static) information so that the device <strong>automatically connects to your local network</strong> upon booting.</p>
+</ul>
+
+<h3>Flashing an SD Card with the Manager</h3>
+
+<h4>Flashing Steps</h4>
+<p>Flashing Tizen onto your SD Card can be done in 3 steps using IoT Setup Manager</p>
+<ol>
+	<li><strong>Create Profile</strong>
+		<ul>
+			<li>Click on the create button to create a profile.</li>
+			<li>Enter necessary information like target, paths to boot and platform binaries, network configuration, etc.</li>
+			<li>Click OK to save.</li>
+		</ul>
+	</li>
+	<li><strong>Choose the SD card to burn Tizen:</strong>
+		<ul>
+			<li>Insert your SD Card into your PC.</li>
+			<li>Choose the appropriate SD Card on the dropdown list (/dev/sdx on Ubuntu, F: on Windows).</li>
+		</ul>
+	</li>
+	<li><strong>Burn Tizen on your SD Card:</strong>
+		<ul>
+			<li>Click on the Burn button to burn Tizen to your SD Card.</li>
+			<li>It takes about 2 minutes to complete the burning.</li>
+		</ul>
+	</li>
+</ol>
+<p>Now you are ready to use the SD Card to boot your IoT Device</p>
+
+<h3 id="board-setup">Setting up the Board and Driver</h3>
+
+<p>Once you have flashed your SD card, you can set up the development board.</p>
+
+<h4>ARTIK 530</h4>
+
+<p>To set up an ARTIK 530 Smart IoT Module:</p>
+
+<ol>
+	<li>Connect the board and boot it up:
+		<ol type="a">
+			<li>Insert the micro SD card into the card slot (marked with a blue arrow) and connect the 5V DC power supply to the board (the red arrow). The following figure shows the underneath of the board.
+			<p align="center"><img src="../images/artik_power_sd.png" alt="ARTIK 530 power and micro SD slots"/></p></li>
+			<li>Connect a USB serial cable (marked with a yellow box) and a separate USB OTG cable (the red box) to your Linux computer. The following figure shows the underneath of the board on the left and the upside on the right.
+			<p align="center"><img src="../images/artik_usb_otg.png" alt="ARTIK 530 USB serial and OTG connectors"/></p></li>
+			<li>To be able to boot from the SD card, set the DIP switch on the board as shown in the following figure (showing the upside of the board).
+			<p align="center"><img src="../images/artik_dip_switch.png" alt="ARTIK 530 DIP switch"/></p></li>
+			<li>Boot the board by switching on the power switch (marked with a red box) on and pressing the power button (the yellow box). The following figure shows the upside of the board.
+			<div class="note">
+			<strong>Note</strong>
+			Make sure that the OM pins are set in the proper configuration to enable booting from the SD card.
+			</div>
+			<p align="center"><img src="../images/artik_power_switch.png" alt="ARTIK 530 power switch"/></p></li>
+			<li>Launch 2 shells in your Linux computer: 1 for serial communication ("serial shell") and 1 for installing the drivers ("Linux shell"). For serial communication to the board, run a serial communication application, such as Minicom or PuTTY. For example, to run Minicom:
+<pre class="prettyprint">
+$ sudo minicom -c on
+</pre>
+				<div class="note">
+				<strong>Note</strong>
+				To configure Minicom:
+				<ol type="a">
+				<li>Enter the Minicom configuration settings menu by pressing <code>Ctrl + A</code>, then <code>Z</code>, then <code>O</code>.</li>
+				<li>In the <code>Serial Device</code> field, set the correct USB port for the serial communication. The format is <code>/dev/ttyUSBX</code> where <code>X</code> equals the number of the port.</li>
+				<li>Change the <code>Hardware Flow Control</code> field to <code>No</code>.</li>
+				</ol>
+<pre class="prettyprint">
++-----------------------------------------------------------------------+
+| A -    Serial Device      : <span class="highlight">/dev/ttyUSBX</span>                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : <span class="highlight">No</span>                                        |
+| G - Software Flow Control : No                                        |
+</pre>
+				</div>
+				<div class="note">
+				<strong>Note</strong>
+				In the "serial shell", you can log in with root/tizen:
+<pre class="prettyprint">
+localhost login: root
+Password: tizen
+Welcome to Tizen
+</pre>
+				</div>
+			</li>
+		</ol>
+	</li>
+	<li>Install connectivity drivers:
+		<ol type="a">
+			<li>Download the plugin zip file from the <strong>ARTIK530(4.0) Plugin</strong> section at <a href="http://developer.samsung.com/tizendevice/firmware" target="_blank">http://developer.samsung.com/tizendevice/firmware</a> and follow the provided instructions.
+			<p align="center"><img src="../images/wifi_driver_artik530.png" alt="ARTIK530(4.0) Plugin section"/></p>
+			</li>
+			<li>Run the script command given in the instructions in the "Linux shell":
+<pre class="prettyprint">
+$ ./ARTIK_plugin_tizen4.0.sh
+</pre>
+			</li>
+		</ol>
+	</li>
+</ol>
+
+
+<h4>Raspberry Pi 3</h4>
+
+<p>To set up a Raspberry Pi 3 board:</p>
+
+<ol>
+	<li>Install the firmware for Wi-Fi and Bluetooth:
+		<ol type="a">
+			<li>Insert an SD card into your computer and check its device node (for example, <code>sdX</code> where X is a letter).
+			<div class="note">
+			<strong>Note</strong>
+			To check the device node:
+			<ol type="1">
+				<li>Before inserting the SD card into the Linux computer, give the following command:
+<pre class="prettyprint">
+$ ls -al /dev/sd*
+</pre>
+<p>For example:</p>
+ <pre class="prettyprint">
+$ ls -al /dev/sd*
+brw-rw---- 1 root disk 8, 0  9 18 09:08 /dev/sda
+brw-rw---- 1 root disk 8, 1  9 18 09:08 /dev/sda1
+brw-rw---- 1 root disk 8, 2  9 18 09:08 /dev/sda2
+brw-rw---- 1 root disk 8, 5  9 18 09:08 /dev/sda5
+</pre>
+				</li>
+				<li>Insert the SD card, and enter the same command again:
+ <pre class="prettyprint">
+$ ls -al /dev/sd*
+</pre>
+<p>For example:</p>
+ <pre class="prettyprint">
+$ ls -al /dev/sd*
+brw-rw---- 1 root disk 8,  0  9 18 09:08 /dev/sda
+brw-rw---- 1 root disk 8,  1  9 18 09:08 /dev/sda1
+brw-rw---- 1 root disk 8,  2  9 18 09:08 /dev/sda2
+brw-rw---- 1 root disk 8,  5  9 18 09:08 /dev/sda5
+brw-rw---- 1 root disk 8, 16  9 22 14:59 /dev/sdb
+brw-rw---- 1 root disk 8, 17  9 22 14:59 /dev/sdb1
+brw-rw---- 1 root disk 8, 18  9 22 14:59 /dev/sdb2
+brw-rw---- 1 root disk 8, 19  9 22 14:59 /dev/sdb3
+brw-rw---- 1 root disk 8, 20  9 22 14:59 /dev/sdb4
+brw-rw---- 1 root disk 8, 21  9 22 14:59 /dev/sdb5
+brw-rw---- 1 root disk 8, 22  9 22 14:59 /dev/sdb6
+brw-rw---- 1 root disk 8, 23  9 22 14:59 /dev/sdb7
+</pre>
+				<p>The new <code>sdX</code> node is the device node for the SD card.</p>
+				<p>In this example, the device node for the SD card is <code>sdb</code>.</p>
+				</li>
+			</ol>
+			</div>
+			</li>
+
+
+			<li>Download the plugin zip file from the <strong>Raspberry Pi 3(4.0) Plugin</strong> section in <a href="http://developer.samsung.com/tizendevice/firmware" target="_blank">http://developer.samsung.com/tizendevice/firmware</a> and follow the provided instructions.
+			<p align="center"><img src="../images/wifi_driver_rpi3.png" alt="Raspberry Pi 3(4.0) Plugin section"/></p>
+			</li>
+			<li>Run the script command given in the instructions in the "Linux shell". For example:
+<pre class="prettyprint">
+$ ./RPI3_plugin_tizen4.0.sh /dev/sdb
+</pre>
+			</li>
+		</ol>
+	</li>
+	<li>Set up the Raspberry Pi 3 board:
+		<ol type="a">
+			<li>Insert the SD card to the Raspberry Pi.</li>
+			<li>For the serial communication connection:
+			<ol type="a">
+				<li>Connect the host computer to the Pi with a <strong>UART-to-USB dongle</strong>, such as PL2303 or FT232 USB UART Board.
+				<p>To use the PL2303, connect the Raspberry Pi TXD0 pin (pin 8) to RXD on the UART board, RXD0 (pin 10) to TXD on the UART board, and the ground (pin 6) to GND on the UART board, and set the jumper switch to 3.3V (pin 1).</p>
+				<div class="note">
+					<strong>Note</strong>
+					Before using a UART-to-USB dongle, familiarize yourself with any hardware limitations it has by visiting the manufacturer's Web site.
+				</div>
+				</li>
+				<li>Execute a terminal program, such as Minicom:
+<pre class="prettyprint">
+$ sudo minicom -c on
+</pre>
+				<div class="note">
+				<strong>Note</strong>
+				To configure Minicom:
+				<ol type="a">
+				<li>Enter the Minicom configuration settings menu by pressing <code>Ctrl + A</code>, then <code>Z</code>, then <code>O</code>.</li>
+				<li>In the <code>Serial Device</code> field, set the correct USB port for the serial communication. The format is <code>/dev/ttyUSBX</code> where <code>X</code> equals the number of the port.</li>
+				<li>Change the <code>Hardware Flow Control</code> field to <code>No</code>.</li>
+				</ol>
+<pre class="prettyprint">
++-----------------------------------------------------------------------+
+| A -    Serial Device      : <span class="highlight">/dev/ttyUSBX</span>                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : <span class="highlight">No</span>                                        |
+| G - Software Flow Control : No                                        |
+</pre>
+				</div>
+				</li>
+				<li>Connect power to the Pi.</li>
+				<li>Log in with root/tizen:
+<pre class="prettyprint">
+localhost login: root
+Password: tizen
+Welcome to Tizen
+root@localhost:~#
+</pre>
+				</li>
+			</ol></li>
+			<li>For the SDB connection:
+			<ol type="a">
+				<li>Connect the host computer to the Pi through an Ethernet cable.
+				<div class="note">
+				<strong>Note</strong>
+				If no Ethernet ports are available in the host computer or the Pi, you can also use an <strong>Ethernet-to-USB dongle</strong>.
+				</div></li>
+				<li>Set a new network interface in the host computer as in the following figure.
+				<p align="center"><img src="../images/network_setting.png" alt="DB connection to RPi3"/></p>
+				</li>
+				<li>Set an IP address for the SDB connection in the serial shell of the Pi with the <code>ifconfig</code> command:
+<pre class="prettyprint">
+root@localhost:~# ifconfig eth0 192.168.1.11
+</pre>
+				</li>
+				<li>Connect SDB in the Linux shell of the host computer:
+<pre class="prettyprint">
+$ sdb connect 192.168.1.11
+$ sdb root on
+$ sdb shell
+</pre>
+				<p>For example:</p>
+<pre class="prettyprint">
+~$ sdb connect 192.168.1.11
+* server not running. starting it now on port 26099 *
+* server started successfully *
+connecting to 192.168.1.11:26101 ...
+connected to 192.168.1.11:26101
+~$ sdb root on
+~$ sdb shell
+sh-3.2#
+</pre>
+				</li>
+			</ol></li>
+		</ol>
+	</li>
+</ol>
+
+<h3>Tips and Guidelines</h3>
+<ul>
+	<li>Profiles are an easy way to store image paths and network configuration information. Once you save a profile, you can just use it to flash your SD Card instead of having to enter all information again.</li>
+	<li>While creating or editing a profile, make sure that the <strong>boot and platform images, and the rpms (if selected), match the target device</strong>.</li>
+	<li>Make sure, there are <strong>no white spaces</strong> in the boot image, platform image and rpm folder paths.</li>
+	<li><strong>Place RPMs in a separate directory </strong>with no other files/directories, and select the directory path for creating the profile.</li>
+	<li>ARTIK530_HEADLESS_INSTALLABLE and ARTIK530_HEADED_INSTALLABLE profiles are used for <strong>writing images from SD Card to eMMC</strong>. Please refer to the <a href="#board-setup">Setting up the Board and Driver</a> section.</li>
+</ul>
+
+<h2 id="command-line-flash">Flashing with the Command Line</h2>
+
+<p>You can also flash the SD card through the command line.</p>
+
+<h3>ARTIK 530</h3>
+
+<p>To flash eMMC (without SD card) for ARTIK 530:</p>
+
+<ol>
+	<li>Fill the following prerequisites:
+		<ul>
+			<li>Make sure your host computer has Ubuntu version 14.04 or higher.</li>
+			<li>Install <code>fastboot</code> and <code>lthor</code> (for details, see <a href="https://wiki.tizen.org/Booting_Tizen_From_eMMC_On_ARTIK530" target="_blank">https://wiki.tizen.org/Booting_Tizen_From_eMMC_On_ARTIK530</a>).</li>
+			<li>Download the following image files in your computer:
+				<ul>
+					<li>Boot image: <a href="http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-boot-armv7l-artik530/tizen-4.0-unified_20180118.1_iot-boot-armv7l-artik530.tar.gz" target="_blank">http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-boot-armv7l-artik530/tizen-4.0-unified_20180118.1_iot-boot-armv7l-artik530.tar.gz</a></li>
+					<li>Platform image: <a href="http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-headless-2parts-armv7l-artik530_710/tizen-4.0-unified_20180118.1_iot-headless-2parts-armv7l-artik530_710.tar.gz" target="_blank">http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-headless-2parts-armv7l-artik530_710/tizen-4.0-unified_20180118.1_iot-headless-2parts-armv7l-artik530_710.tar.gz</a></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<li>Set up the board connections:
+		<ol type="a">
+			<li>Connect the 5V DC power supply to the board (marked with a red arrow). The following figure shows the underneath of the board.
+			<p align="center"><img src="../images/artik_power.png" alt="ARTIK 530 power"/></p></li>
+			<li>To be able to boot from the eMMC card, set the DIP switch on the board as shown in the following figure (showing the upside of the board).
+			<p align="center"><img src="../images/artik_dip_switch_down.png" alt="ARTIK 530 DIP switch"/></p></li>
+			<li>Connect a USB serial cable form your Linux computer to the debug USB port (marked with a yellow box in the following figure) and a separate USB OTG cable to the USB OTG port (marked with the red box). The following figure shows the underneath of the board on the left and the upside on the right.
+			<p align="center"><img src="../images/artik_usb_otg.png" alt="ARTIK 530 USB serial and OTG connectors"/></p></li>
+			<li>Switch on the power switch (marked with a red box in the following figure) and press the power button (the yellow box). The following figure shows the upside of the board.
+			<p align="center"><img src="../images/artik_power_switch.png" alt="ARTIK 530 power switch"/></p></li>
+			<li>Launch 2 shells in your Linux computer: 1 for serial communication ("serial shell") and 1 for flashing the binaries ("Linux shell"). For serial communication to the board, run a serial communication application, such as Minicom or PuTTY. For example, to run Minicom:
+<pre class="prettyprint">
+$ sudo minicom -c on
+</pre>
+<div class="note">
+				<strong>Note</strong>
+				To configure Minicom:
+				<ol type="a">
+				<li>Enter the Minicom configuration settings menu by pressing <code>Ctrl + A</code>, then <code>Z</code>, then <code>O</code>.</li>
+				<li>In the <code>Serial Device</code> field, set the correct USB port for the serial communication. The format is <code>/dev/ttyUSBX</code> where <code>X</code> equals the number of the port.</li>
+				<li>Change the <code>Hardware Flow Control</code> field to <code>No</code>.</li>
+				</ol>
+<pre class="prettyprint">
++-----------------------------------------------------------------------+
+| A -    Serial Device      : <span class="highlight">/dev/ttyUSBX</span>                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : <span class="highlight">No</span>                                        |
+| G - Software Flow Control : No                                        |
+</pre>
+				</div>
+			</li>
+		</ol>
+	</li>
+	<li>After the board has been reset, the "serial shell" shows a number counting down next to the <strong>Hit any key to stop autoboot</strong> line. Before the count reaches 0, press <strong>Enter</strong> in the "serial shell" to stop the boot process and enter the bootloader mode.
+<pre class="prettyprint">
+Board: ARTIK530 Raptor
+DRAM:  512 MiB
+HW Revision:    4
+MMC:   NEXELL DWMMC: 0, NEXELL DWMMC: 1
+In:    serial
+Out:   serial
+Err:   serial
+LCD#1:0x4, LCD#2:0x4, CAM#1:0x4, CAM#2:0x4
+ADD-ON-BOARD : 0xFFFF
+Net:
+Warning: ethernet@c0060000 (eth0) using random MAC address - xx:xx:xx:xx:xx
+eth0: ethernet@c0060000
+Hit any key to stop autoboot:  0 &lt;Enter key&gt;
+artik530#
+</pre>
+	</li>
+	<li>Flash the boot image:
+		<ol type="a">
+			<li>Download the following <code>tar.gz</code> file: <a href="../embedded_files/flash_boot_v2.tar.gz">flash_boot_v2.tar.gz</a></li>
+			<li>Unzip the <code>flash_boot_v2.tar.gz</code> file to find the <code>flash_boot.sh</code> file and the <code>bootimage</code> directory.
+	<div class="note">
+	<strong>Note</strong>
+	The file extension of the downloaded file is <code>.tar_.gz</code>. Change it to <code>.tar.gz</code> before unzipping the file.
+	</div></li>
+			<li>In the "serial shell", enter <code>fastboot 0</code>:
+<pre class="prettyprint">
+artik530# fastboot 0
+</pre>
+			</li>
+			<li>In the "Linux shell", run <code>flash_boot.sh</code>:
+<pre class="prettyprint">
+$ ./flash_boot.sh
+</pre>
+			</li>
+			<li>Reboot the board and enter the bootloader mode again.</li>
+			<li>In the "serial shell", enter <code>thordown 0 mmc 0</code>:
+<pre class="prettyprint">
+artik530# thordown 0 mmc 0
+</pre>
+			</li>
+			<li>In the "Linux shell", run <code>lthor</code> to flash the boot image (which you downloaded in step 1):
+<pre class="prettyprint">
+$ lthor tizen-4.0-unified_<strong>YYYYMMDD.V</strong>_iot-boot-armv7l-artik530.tar.gz
+</pre>
+			</li>
+		</ol>
+	</li>
+	<li>Flash the platform image:
+		<ol type="a">
+			<li>Reboot the board and enter the bootloader mode again.</li>
+			<li>In the "serial shell", enter <code>thordown 0 mmc 0</code>:
+<pre class="prettyprint">
+artik530# thordown 0 mmc 0
+</pre>
+			</li>
+			<li>In the "Linux shell", run <code>lthor</code> to flash the platform image (which you downloaded in step 1):
+<pre class="prettyprint">
+$ lthor tizen-4.0-unified_<strong>YYYYMMDD.V</strong>_iot-headless-2parts-armv7l-artik530_710.tar.gz
+</pre>
+			</li>
+		</ol>
+	</li>
+	<li>Open the SDB connection in the "serial shell":
+		<ol type="a">
+			<li>Reboot the board and login with root/tizen:
+<pre class="prettyprint">
+localhost login: root
+Password: tizen
+Welcome to Tizen
+</pre>
+			</li>
+			<li>Enter the following command:
+<pre class="prettyprint">
+root@localhost:~# sdb-mode.sh --on
+</pre>
+			</li>
+		</ol>
+	<div class="note">
+	<strong>Note</strong>
+	Repeat this step whenever you power-cycle the device, in order to reconnect the sdb tool. If you flash the binaries using the command line, SDB connection is not automatically set.
+	</div>
+	</li>
+	<li>Install connectivity drivers:
+		<ol type="a">
+			<li>Download the plugin zip file from the <strong>ARTIK530(4.0) Plugin</strong> section in <a href="http://developer.samsung.com/tizendevice/firmware" target="_blank">http://developer.samsung.com/tizendevice/firmware</a> and follow the provided instructions.
+			<p align="center"><img src="../images/wifi_driver_artik530.png" alt="ARTIK530(4.0) Plugin section"/></p>
+			</li>
+			<li>Run the script command given in the instructions in the "Linux shell":
+<pre class="prettyprint">
+$ ./ARTIK_plugin_tizen4.0.sh
+</pre>
+			</li>
+		</ol>
+	</li>
+</ol>
+
+<p>For more detailed information, see <a href="https://wiki.tizen.org/Booting_Tizen_From_eMMC_On_ARTIK530" target="_blank">https://wiki.tizen.org/Booting_Tizen_From_eMMC_On_ARTIK530</a>.</p>
+
+
+<h3>Raspberry Pi 3</h3>
+
+<p>To flash the SD card for Raspberry Pi 3:</p>
+
+<ol>
+	<li>Fill the following prerequisites:
+		<ol>
+			<li>Install the <code>pv</code> package in the Linux computer:
+<pre class="prettyprint">
+$ sudo apt-get install pv
+</pre>
+			</li>
+			<li>Make sure you have an SD card of 4 GB or more.</li>
+			<li>Download the following images, script, and firmware:
+				<ul>
+					<li>Boot image: <a href="http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-boot-arm64-rpi3/tizen-4.0-unified_20180118.1_iot-boot-arm64-rpi3.tar.gz" target="_blank">http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-boot-arm64-rpi3/tizen-4.0-unified_20180118.1_iot-boot-arm64-rpi3.tar.gz</a></li>
+					<li>Platform image: <a href="http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-headless-2parts-armv7l-rpi3/tizen-4.0-unified_20180118.1_iot-headless-2parts-armv7l-rpi3.tar.gz" target="_blank">http://download.tizen.org/releases/milestone/tizen/4.0-unified/tizen-4.0-unified_20180118.1/images/standard/iot-headless-2parts-armv7l-rpi3/tizen-4.0-unified_20180118.1_iot-headless-2parts-armv7l-rpi3.tar.gz</a></li>
+					<li>Fusing-script for Raspberry Pi 3:
+<pre class="prettyprint">
+$ wget https://git.tizen.org/cgit/platform/kernel/u-boot/plain/scripts/tizen/sd_fusing_rpi3.sh?h=tizen --output-document=sd_fusing_rpi3.sh
+$ chmod 755 sd_fusing_rpi3.sh
+</pre>
+					</li>
+				</ul>
+			</li>
+		</ol>
+	</li>
+	<li>Flash the SD card to make it "Tizen ready":
+		<ol type="a">
+			<li>Insert an SD card to the Linux computer and check its device node.
+			<div class="note">
+			<strong>Note</strong>
+			To check the device node:
+			<ol>
+				<li>Before inserting the SD card into the Linux computer, type the following command:
+<pre class="prettyprint">
+$ ls -al /dev/sd*
+</pre>
+<p>For example:</p>
+ <pre class="prettyprint">
+$ ls -al /dev/sd*
+brw-rw---- 1 root disk 8, 0  9 18 09:08 /dev/sda
+brw-rw---- 1 root disk 8, 1  9 18 09:08 /dev/sda1
+brw-rw---- 1 root disk 8, 2  9 18 09:08 /dev/sda2
+brw-rw---- 1 root disk 8, 5  9 18 09:08 /dev/sda5
+</pre>
+				</li>
+				<li>Insert the SD card, and type the same command again:
+ <pre class="prettyprint">
+$ ls -al /dev/sd*
+</pre>
+<p>For example:</p>
+ <pre class="prettyprint">
+$ ls -al /dev/sd*
+brw-rw---- 1 root disk 8,  0  9 18 09:08 /dev/sda
+brw-rw---- 1 root disk 8,  1  9 18 09:08 /dev/sda1
+brw-rw---- 1 root disk 8,  2  9 18 09:08 /dev/sda2
+brw-rw---- 1 root disk 8,  5  9 18 09:08 /dev/sda5
+brw-rw---- 1 root disk 8, 16  9 22 14:59 /dev/sdb
+brw-rw---- 1 root disk 8, 17  9 22 14:59 /dev/sdb1
+brw-rw---- 1 root disk 8, 18  9 22 14:59 /dev/sdb2
+brw-rw---- 1 root disk 8, 19  9 22 14:59 /dev/sdb3
+brw-rw---- 1 root disk 8, 20  9 22 14:59 /dev/sdb4
+brw-rw---- 1 root disk 8, 21  9 22 14:59 /dev/sdb5
+brw-rw---- 1 root disk 8, 22  9 22 14:59 /dev/sdb6
+brw-rw---- 1 root disk 8, 23  9 22 14:59 /dev/sdb7
+</pre>
+				<p>The new <code>sdX</code> node (where X is a letter) is the device node for the SD card.</p>
+				<p>In this example, the device node for the SD card is <code>sdb</code>.</p>
+				</li>
+			</ol>
+			</div>
+			</li>
+			<li>Download and unzip the <a href="../embedded_files/flash-sdcard-rpi3.tar.gz" target="_blank">flash-sdcard-rpi3.tar.gz</a> script file. This script and all other downloaded files must be in the same directory.
+	<div class="note">
+	<strong>Note</strong>
+	The file extension of the downloaded file is <code>.tar_.gz</code>. Change it to <code>.tar.gz</code> before unzipping the file.
+	</div></li>
+			<li>Run the <code>flash-sdcard.sh</code> script with the device node and binary version:
+<pre class="prettyprint">
+$ sudo ./flash-sdcard.sh &lt;SD card device node&gt;
+</pre>
+<p>For example:</p>
+<pre class="prettyprint">
+$ sudo ./flash-sdcard.sh /dev/sdb
+</pre>
+			</li>
+			<li>Download the plugin zip file from the <strong>Raspberry Pi 3(4.0) Plugin</strong> section in <a href="http://developer.samsung.com/tizendevice/firmware" target="_blank">http://developer.samsung.com/tizendevice/firmware</a> and follow the provided instructions.
+			<p align="center"><img src="../images/wifi_driver_rpi3.png" alt="Raspberry Pi 3(4.0) Plugin section"/></p>
+			</li>
+			<li>Run the script command given in the instructions in the "Linux shell". For example:
+<pre class="prettyprint">
+$ ./RPI3_plugin_tizen4.0.sh /dev/sdb
+</pre>
+			</li>
+		</ol>
+	</li>
+	<li>Set up the Raspberry Pi 3 board:
+		<ol type="a">
+			<li>Insert the SD card to the Raspberry Pi.</li>
+			<li>For the serial communication connection:
+			<ol>
+				<li>Connect the host computer to the Pi with a <strong>UART-to-USB dongle</strong>, such as PL2303 or FT232 USB UART Board.
+			<p>To use the PL2303, connect the Raspberry Pi TXD0 pin (pin 8) to RXD on the UART board, RXD0 (pin 10) to TXD on the UART board, and the ground (pin 6) to GND on the UART board, and set the jumper switch to 3.3V (pin 1).</p>
+			<div class="note">
+				<strong>Note</strong>
+				Before using a UART-to-USB dongle, familiarize yourself with any hardware limitations it has by visiting the manufacturer's Web site.
+			</div>
+			</li>
+			<li>Execute a terminal program, such as Minicom:
+<pre class="prettyprint">
+$ sudo minicom -c on
+</pre>
+<div class="note">
+				<strong>Note</strong>
+				To configure Minicom:
+				<ol type="a">
+				<li>Enter the Minicom configuration settings menu by pressing <code>Ctrl + A</code>, then <code>Z</code>, then <code>O</code>.</li>
+				<li>In the <code>Serial Device</code> field, set the correct USB port for the serial communication. The format is <code>/dev/ttyUSBX</code> where <code>X</code> equals the number of the port.</li>
+				<li>Change the <code>Hardware Flow Control</code> field to <code>No</code>.</li>
+				</ol>
+<pre class="prettyprint">
++-----------------------------------------------------------------------+
+| A -    Serial Device      : <span class="highlight">/dev/ttyUSBX</span>                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : <span class="highlight">No</span>                                        |
+| G - Software Flow Control : No                                        |
+</pre>
+				</div>
+			</li>
+			<li>Connect power to the Pi.</li>
+			<li>Log in with root/tizen:
+<pre class="prettyprint">
+...
+
+localhost login: root
+Password: tizen
+Welcome to Tizen
+root@localhost:~#
+</pre>
+			</li>
+			</ol></li>
+			<li>For the SDB connection:
+			<ol>
+				<li>Connect the host computer to the Pi through an Ethernet cable.
+				<div class="note">
+				<strong>Note</strong>
+				If no Ethernet ports are available in the host computer or the Pi, you can also use an <strong>Ethernet-to-USB dongle</strong>.
+				</div></li>
+				<li>Set a new network interface in the host computer as inthe following figure.
+				<p align="center"><img src="../images/network_setting.png" alt="DB connection to RPi3"/></p>
+				</li>
+				<li>Set an IP address for the SDB connection in the serial shell of the Pi with the <code>ifconfig</code> command:
+<pre class="prettyprint">
+root@localhost:~# ifconfig eth0 192.168.1.11
+</pre>
+				</li>
+				<li>Connect SDB in the Linux shell of the host computer:
+<pre class="prettyprint">
+$ sdb connect 192.168.1.11
+$ sdb root on
+$ sdb shell
+</pre>
+				<p>For example:</p>
+<pre class="prettyprint">
+~$ sdb connect 192.168.1.11
+* server not running. starting it now on port 26099 *
+* server started successfully *
+connecting to 192.168.1.11:26101 ...
+connected to 192.168.1.11:26101
+~$ sdb root on
+~$ sdb shell
+sh-3.2#
+</pre>
+				</li>
+			</ol></li>
+		</ol>
+	</li>
+</ol>
+
+
+<h2 id="wifi-setup">Setting up Wi-Fi</h2>
+
+<div class="note">
+<strong>Note</strong>
+If you want to connect your device to the SmartThings Cloud, skip this section. For SmartThings devices, the device enables SoftAP mode during setup, so there is no need to switch on Wi-Fi separately.
+</div>
+
+<p>You can set up a WiFi connection by running <code>wifi_manager_test</code> and entering the options <strong>1 &gt; 3 &gt; 9 &gt; b &gt; c</strong>. If you set up the connection once, it reconnects automatically the next time you power-cycle the device.</p>
+
+<pre class="prettyprint">
+# wifi_manager_test
+Test Thread created...&lt;Enter&gt;
+Event received from stdin
+Network Connection API Test App
+Options..
+1   - Wi-Fi init and set callbacks
+2   - Wi-Fi deinit(unset callbacks automatically)
+3   - Activate Wi-Fi device
+4   - Deactivate Wi-Fi device
+5   - Is Wi-Fi activated?
+6   - Get connection state
+7   - Get MAC address
+8   - Get Wi-Fi interface name
+9   - Scan request
+a   - Get Connected AP
+b   - Get AP list
+c   - Connect
+d   - Disconnect
+e   - Connect by wps pbc
+f   - Forget an AP
+g   - Set &amp; connect EAP
+h   - Set IP method type
+i   - Set Proxy method type
+j   - Get Ap info
+k   - Connect Specific AP
+l   - Load configuration
+m   - Save configuration
+n   - Remove configuration
+o   - TDLS Discover
+p   - TDLS Connect
+q   - TDLS Connected peer
+r   - TDLS Disconnect
+s   - Connect Hidden AP
+t   - Connect WPS PBC without SSID
+u   - Connect WPS PIN without SSID
+v   - Cancel WPS Request
+w   - Set Auto Scan Enable-Disable
+x   - Set Auto Scan Mode
+y   - Get wifi scanning state
+z   - Get Auto Scan Enable-Disable
+A   - Get Auto Scan Mode
+B   - Enable TDLS Channel Switch Request
+C   - Disable TDLS Channel Switch Request
+D   - Get Wi-Fi Module State
+E   - BSSID Scan
+F   - Add VSIE
+G   - Get VSIE
+H   - Remove VSIE
+I   - Start Multi Scan
+J   - Flush BSS
+K   - Set auto connect mode
+L   - Get auto connect mode
+0   - Exit
+ENTER  - Show options menu.......
+Operation succeeded!
+1
+Event received from stdin
+Wifi init succeeded
+Operation succeeded!
+3
+Event received from stdin
+Wi-Fi Activation Succeeded
+Operation succeeded!
+9
+Event received from stdin
+Interface name : wlan0
+Operation succeeded!
+b
+Event received from stdin
+AP name : crash_messaging, state : Disconnected
+AP name : dnet1, state : Disconnected
+... &lt; list of APs &gt; ...
+Get AP list finished
+Operation succeeded!
+Background Scan Completed, error code : NONE
+c
+Event received from stdin
+Input a part of AP name to connect : &lt;AP name&gt;
+Passphrase required : TRUE
+Input passphrase for dnet1 : &lt;Password&gt;
+</pre>
+
+<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="../scripts/showhide.js"></script>
+</div></div></div>
+
+
+<a class="top sms" href="#"><img src="../images/btn_top.gif" alt="Go to top"/></a>
+
+<div id="footer">
+<p class="footer">Except as noted, this content - excluding the Code Examples - is licensed under <a href="http://creativecommons.org/licenses/by/3.0/legalcode" target="_blank">Creative Commons Attribution 3.0</a> and all of the Code Examples contained herein are licensed under <a href="https://www.tizen.org/bsd-3-clause-license" target="_blank">BSD-3-Clause</a>.<br/>For details, see the <a href="https://www.tizen.org/content-license" target="_blank">Content License</a>.</p>
+</div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25976949-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body></html>
