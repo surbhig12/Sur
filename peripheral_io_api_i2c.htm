@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/snippet.css" />
+	<script type="text/javascript" src="../scripts/snippet.js"></script>
+	<script type="text/javascript" src="../scripts/jquery.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/common.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/core.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../scripts/search.js" charset="utf-8"></script>
+
+	<title>I2C</title>
+
+</head>
+
+<body onload="prettyPrint()" style="overflow: auto;">
+
+
+<div id="toc-navigation">
+
+	<div id="toc_border"><div id="toc">
+		<p class="toc-title">Content</p>
+		<ul class="toc">
+			<li><a href="#handle">Opening and Closing a Handle</a></li>
+			<li><a href="#data">Reading and Writing Data</a></li>
+			<li><a href="#register">Reading and Writing Register Data</a></li>
+		</ul>
+	</div></div>
+</div>
+
+<div id="container"><div id="contents"><div class="content">
+
+<h1>I<sup>2</sup>C</h1>
+
+
+<p><a href="https://en.wikipedia.org/wiki/I%C2%B2C" target="_blank">I<sup>2</sup>C</a> (Inter-Integrated Circuit) is a programmable interface that allows you to communicate with I<sup>2</sup>C peripherals.</p>
+
+<p>I<sup>2</sup>C is a synchronous serial interface that uses a clock signal to synchronize data transfers between master and slave device:</p>
+
+<ul>
+	<li>Master device generates the clock and initiates communication with slaves.</li>
+	<li>Slave device receives the clock and responds when addressed by the master.</li>
+</ul>
+
+<p align="center"><strong>Figure: I<sup>2</sup>C interface diagram</strong></p>
+
+<p align="center"><img alt="I2C interface diagram" src="../images/peri_api_i2c_diagram.png" /></p>
+
+<p>To allow the I<sup>2</sup>C master to connect to 128 I<sup>2</sup>C slave devices, an I<sup>2</sup>C slave device provides a 7-bit address. Since most slave addresses are determined by the manufacturer, refer to the specification to find the slave device address.</p>
+
+<p>Using the I<sup>2</sup>C bus, the master controls signal lines called SCL (Shared CLock) and SDA (Shared DAta) to read or write data to or from the device. SCL is a clock line for communication synchronization, and SDA is a data line. The master outputs the clock for synchronization with the SCL, and the slave outputs or receives data through the SDA according to the clock output to the SCL.</p>
+
+<p>If the SDA line is used alone, only half duplex communication is possible because data is sent only to 1 line.</p>
+
+<h2 id="handle">Opening and Closing a Handle</h2>
+
+<p>To open and close a handle:</p>
+
+<ol>
+	<li>To open an I<sup>2</sup>C handle, use the <code>peripheral_i2c_open()</code> function:
+
+	<pre class="prettyprint">
+int bus = 1;
+int address = ...;   /* See the specification */
+peripheral_i2c_h i2c_h;
+peripheral_i2c_open(bus, address, &amp;i2c_h);
+</pre>
+
+	<p>The <code>bus</code> parameter required for this function must be set according to the following table.</p>
+
+	<p align="center" class="Table"><strong>Table: ARTIK 530 / Raspberry Pi 3</strong></p>
+
+	<table>
+		<tbody>
+			<tr>
+				<th colspan="2">Pin name</th>
+				<th>Bus number (parameter 1)</th>
+			</tr>
+			<tr>
+				<td>I2C1_SDA</td>
+				<td>I2C1_SCL</td>
+				<td>1</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="note"><strong>Note</strong> For more information on the pin names and locations, see <a href="peripheral_io_api.htm#protocol">Supported Protocols</a>.</div>
+
+	<p>The <code>address</code> parameter must be set based on the peripheral specification.</p>
+	</li>
+	<li>To close an I<sup>2</sup>C handle that is no longer used, use the <code>peripheral_i2c_close()</code> function:
+
+<pre class="prettyprint">
+peripheral_i2c_close(i2c_h);
+</pre>
+	</li>
+</ol>
+
+<h2 id="data">Reading and Writing Data</h2>
+
+<p>To read and write data:</p>
+
+<ul>
+	<li>To write bytes to a slave device, use the <code>peripheral_i2c_write()</code> function:
+
+<pre class="prettyprint">
+uint8_t data[2] = {0x06, 0x01};
+uint32_t length = 2;
+peripheral_i2c_write(i2c_h, data, length);
+</pre>
+	</li>
+	<li>To read bytes from a slave device, use the <code>peripheral_i2c_read()</code> function:
+<pre class="prettyprint">
+uint8_t data[2];
+uint32_t length = 2;
+peripheral_i2c_read(i2c_h, data, length);
+</pre>
+	</li>
+</ul>
+
+<h2 id="register">Reading and Writing Register Data</h2>
+
+<p>To read and write register data:</p>
+
+<ul>
+	<li>To write single byte data to a slave device register, use the <code>peripheral_i2c_write_register_byte()</code> function:
+
+<pre class="prettyprint">
+uint8_t data = 0x06;
+uint8_t register_address = ...;  /* See the specification */
+peripheral_i2c_write_register_byte(i2c_h, register_address, data);
+</pre>
+	</li>
+	<li>To read single byte data from a slave device register, use the <code>peripheral_i2c_read_register_byte()</code> function:
+<pre class="prettyprint">
+uint8_t data ;
+uint8_t register_address = ...;  /* See the specification */
+peripheral_i2c_read_register_byte(i2c_h, register_address, &amp;data);
+</pre>
+	</li>
+	<li>To write word data to a slave device register, use the <code>peripheral_i2c_write_register_word()</code> function:
+<pre class="prettyprint">
+uint16_t data = 0xffff;
+uint8_t register_address = ...;  /* See the specification */
+peripheral_i2c_write_register_word(i2c_h, register_address, data);
+</pre>
+	</li>
+	<li>To read word data from a slave device register, use the <code>peripheral_i2c_read_register_word()</code> function:
+<pre class="prettyprint">
+uint16_t data ;
+uint8_t register_address = ...;  /* See the specification */
+peripheral_i2c_read_register_word(i2c_h, register_address, &amp;data);
+</pre>
+	</li>
+</ul>
+
+<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+<script type="text/javascript" src="../scripts/showhide.js"></script>
+</div></div></div>
+
+
+<a class="top sms" href="#"><img src="../images/btn_top.gif" alt="Go to top"/></a>
+
+<div id="footer">
+<p class="footer">Except as noted, this content - excluding the Code Examples - is licensed under <a href="http://creativecommons.org/licenses/by/3.0/legalcode" target="_blank">Creative Commons Attribution 3.0</a> and all of the Code Examples contained herein are licensed under <a href="https://www.tizen.org/bsd-3-clause-license" target="_blank">BSD-3-Clause</a>.<br/>For details, see the <a href="https://www.tizen.org/content-license" target="_blank">Content License</a>.</p>
+</div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25976949-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body></html>
